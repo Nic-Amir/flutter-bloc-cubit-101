@@ -39,10 +39,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Bloc example'),
-        ),
-        body: BlocListener<CounterCubit, int>(
+      appBar: AppBar(
+        title: const Text('Bloc example'),
+      ),
+      body: BlocConsumer<CounterCubit, int>(
           bloc: cubit,
           listener: (BuildContext context, int state) {
             const snackbar = SnackBar(content: Text('ENUFF!!'));
@@ -50,44 +50,41 @@ class _MyHomePageState extends State<MyHomePage> {
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             }
           },
-          child: BlocBuilder<CounterCubit, int>(
-            bloc: cubit,
-            builder: (BuildContext context, int state) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '$state',
-                      style: TextStyle(
-                        fontSize: 100,
-                      ),
+          builder: (BuildContext context, int state) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '$state',
+                    style: TextStyle(
+                      fontSize: 100,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              cubit.increment();
-                            },
-                            child: Text('+')),
-                        ElevatedButton(
-                            onPressed: () {
-                              cubit.decrement();
-                            },
-                            child: Text('-')),
-                        ElevatedButton(
-                            onPressed: () {
-                              cubit.setToZero();
-                            },
-                            child: Text('restart')),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ));
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            cubit.decrement();
+                          },
+                          child: Text('-')),
+                      ElevatedButton(
+                          onPressed: () {
+                            cubit.setToZero();
+                          },
+                          child: Text('reset')),
+                      ElevatedButton(
+                          onPressed: () {
+                            cubit.increment();
+                          },
+                          child: Text('+')),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }),
+    );
   }
 }
